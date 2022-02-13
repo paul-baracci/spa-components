@@ -1,4 +1,9 @@
 <div class="container">
     <h1>Blog</h1>
-    <p>Text</p>
+    <p-loop each="/objects/humans.json">
+        <h2>
+            ${object.name} (born in ${object.country}) is ${object.age} years old.
+        </h2>
+    </p-loop>
 </div>
+

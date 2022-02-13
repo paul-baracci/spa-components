@@ -1,29 +1,10 @@
-import {Modal} from '/components/modal.js';
+import {Modal} from '/modules/components/modal.js';
+import {Alert} from '/modules/components/alert.js';
+import {Looper} from '/modules/components/looper.js';
+import * as Router from '/modules/routing/router.js';
 
-const route = (event) => {
-    event = event || window.event;
-    event.preventDefault();
-    window.history.pushState({}, "", event.target.href);
-    handleLocation();
-};
+// Route and page location handling.
+window.onpopstate = Router.handleLocation;
+window.route = Router.handleRoute;
+Router.handleLocation();
 
-const routes = {
-    404: './404.html',
-    '/': './home.html',
-    '/about': './about.html',
-    '/blog': './blog.html',
-    '/gallery': './gallery.html',
-};
-
-const handleLocation = async () => {
-    const path = window.location.pathname;
-    const route = routes[path] || routes[404];
-    const html = await fetch(route).then((data) => data.text());
-    document.getElementById('main-page').innerHTML = html;
-
-};
-
-window.onpopstate = handleLocation;
-window.route = route;
-
-handleLocation();
