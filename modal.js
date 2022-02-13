@@ -1,31 +1,32 @@
-export {Modal};
-
-class Modal extends HTMLElement {
+export class Modal extends HTMLElement {
     constructor() {
         super();
-
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.innerHTML = `
-        <style>
-            .modal {
-                display: none; 
-                position: fixed; 
-                z-index: 1; 
-                padding-top: 100px;  
-            }
-        </style>
-        <button>Open Modal</button>
-        <div class="modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <span class="close">&times;</span>
-                    <slot name="header"><h1>Default text</h1></slot>
-                </div>
-                <div class="modal-body">
-                    <slot><slot>
+            <style>
+                .modal {
+                    display: none; 
+                    position: fixed; 
+                    z-index: 1; 
+                    padding-top: 100px;  
+                }
+            </style>
+            <button>
+                <slot name="open-modal">
+                    <div>Open Modal</div>
+                </slot>
+            </button>
+            <div class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span class="close">&times;</span>
+                        <slot name="header"><h1>Default text</h1></slot>
+                    </div>
+                    <div class="modal-body">
+                        <slot><slot>
+                    </div>
                 </div>
             </div>
-        </div>
         `
     }
   
@@ -38,9 +39,7 @@ class Modal extends HTMLElement {
             .addEventListener('click', this._hideModal.bind(this));
     }
 
-    attributeChangeCallback() {
-    }
-
+    //attributeChangeCallback() {}
     disconnectedCallback() {
         this.shadowRoot.querySelector('button')
             .removeEventListener('click', this._showModal());
@@ -49,12 +48,10 @@ class Modal extends HTMLElement {
     }
 
     _showModal() {
-        this._modalVisible = true;
         this._modal.style.display = 'block';
     }
 
     _hideModal() {
-        this._modalVisible = false;
         this._modal.style.display = 'none';
     }
 }
